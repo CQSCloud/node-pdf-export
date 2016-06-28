@@ -1,7 +1,8 @@
 const path = require('path');
 
 const scope = {
-  iTextPDF: path.join(__dirname, 'bin', 'itextpdf-5.5.9.jar')
+  iTextPDF: path.join(__dirname, 'bin', 'itextpdf-5.5.9.jar'),
+  binPath: path.join(__dirname, 'bin')
 };
 
 module.exports.pdfExtract = {

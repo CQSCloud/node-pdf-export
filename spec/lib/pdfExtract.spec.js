@@ -7,7 +7,7 @@ const pdfExtract = require('../../index.js').pdfExtract;
 describe('pdfExtract', () => {
   const expectedExec = (file) => {
     const binPath = path.join(__dirname, '..', '..', 'bin', 'itextpdf-5.5.9.jar');
-    const libPath = path.join(__dirname, '..', '..', 'lib');
+    const libPath = path.join(__dirname, '..', '..', 'bin');
     return `java -cp ${binPath}:${libPath} pdfExtract < ${file}`;
   };
 
