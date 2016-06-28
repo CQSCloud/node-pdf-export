@@ -13,9 +13,9 @@ describe('pdfExtract', () => {
 
   context('when there are no errors', () => {
     beforeEach(() => {
-      sinon.stub(childProcess, 'exec');
-      childProcess.exec.onCall(0).resolves('foo');
-      childProcess.exec.onCall(1).resolves('bar');
+      sinon.stub(childProcess, 'exec').returns();
+      childProcess.exec.onCall(0).yields(undefined, 'foo');
+      childProcess.exec.onCall(1).yields(undefined, 'bar');
     });
 
     afterEach(() => {
@@ -96,9 +96,42 @@ describe('pdfExtract', () => {
     });
   });
 
-  context('run with with files returning errors', () => {
+  context('run with with some files returning errors', () => {
     beforeEach(() => {
-      sinon.stub(childProcess, 'exec').rejects(new Error('foo'));
+      sinon.stub(childProcess, 'exec');
+      childProcess.exec.onCall(0).yields(undefined, 'foo');
+      childProcess.exec.onCall(1).yields(new Error('foo'));
+    });
+
+    afterEach(() => {
+      childProcess.exec.restore();
+    });
+
+    it('execs the expected java statements', () => {
+      return pdfExtract.run(['a', 'b'])
+        .then(() => {
+          expect(childProcess.exec).to.be.calledTwice;
+          expect(childProcess.exec).to.be.calledWith(expectedExec('a'));
+          expect(childProcess.exec).to.be.calledWith(expectedExec('b'));
+        });
+    });
+
+    it('returns an item with an error', () => {
+      return pdfExtract.run(['a', 'b'])
+        .then((results) => {
+          expect(results).to.be.an.array;
+          expect(results).to.have.length(2);
+
+          expect((results[0])).to.not.have.property('error');
+          expect((results[1])).to.have.property('error');
+        });
+    });
+  });
+
+  context('run with with all files returning errors', () => {
+    beforeEach(() => {
+      sinon.stub(childProcess, 'exec');
+      childProcess.exec.yields(new Error('foo'));
     });
 
     afterEach(() => {
