@@ -8,7 +8,7 @@ describe('pdfExtract', () => {
   const expectedExec = (file) => {
     const binPath = path.join(__dirname, '..', '..', 'bin', 'itextpdf-5.5.9.jar');
     const libPath = path.join(__dirname, '..', '..', 'lib');
-    return `java -cp ${binPath}:${libPath} pdfExport < ${file}`;
+    return `java -cp ${binPath}:${libPath} pdfExtract < ${file}`;
   };
 
   context('when there are no errors', () => {
