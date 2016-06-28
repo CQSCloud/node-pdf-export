@@ -1,5 +1,5 @@
 {
-  "name": "node-pdf-export",
+  "name": "pdf-extract",
   "version": "1.0.0",
   "description": "nodejs module to extract xfa:data from PDF file",
   "main": "index.js",
