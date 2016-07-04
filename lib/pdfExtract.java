@@ -31,7 +31,7 @@ public class pdfExtract {
 
         if (node != null) {
           xml.setOutput(System.out, null);
-          xml.write(xfa.getDatasetsNode());
+          xml.write(node);
           return true;
         }
         return false;
